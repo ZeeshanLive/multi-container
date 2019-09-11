@@ -1,0 +1,23 @@
+sudo: required
+services:
+  - docker
+before_install:
+  - docker build -t zeeshanlive/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true zeeshanlive/docker-react npm test
+
+after_success:
+  - docker build -t zeeshanlive/multi-client ./client
+  - docker build -t zeeshanlive/multi-nginx ./nginx
+  - docker build -t zeeshanlive/multi-server ./server
+  - docker build -t zeeshanlive/multi-worker ./worker
+# log in docker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+
+  # Take images push it to docker-hub
+  - docker push zeeshanlive/multi-client
+  - docker push zeeshanlive/multi-nginx 
+  - docker push zeeshanlive/multi-server
+  - docker push zeeshanlive/multi-worker
