@@ -5,7 +5,7 @@ before_install:
   - docker build -t zeeshanlive/react-test -f ./client/dev.Dockerfile ./client
 
 script:
-  - docker run -e CI=true zeeshanlive/react-t npm test
+  - docker run -e CI=true zeeshanlive/react-test npm test
 
 after_success:
   - docker build -t zeeshanlive/multi-client ./client
