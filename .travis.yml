@@ -21,3 +21,16 @@ after_success:
   - docker push zeeshanlive/multi-nginx 
   - docker push zeeshanlive/multi-server
   - docker push zeeshanlive/multi-worker
+deploy:
+  provider: elasticbeanstalk
+  region: "eu-west-2"
+  app: "nulti-container"
+  env: "NultiContainer-env"
+  bucket_name: "elasticbeanstalk-eu-west-2-799073789460"
+  bucket_path: "docker-multi"
+  on:
+    branch: master
+  access_key_id: 
+    secure: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: "$AWS_SECRET_KEY"  
